@@ -77,7 +77,7 @@ router.get("/", async (req, res) => {
 });
 
 // @route    GET api/users/:id
-// @desc     Get current users profile
+// @desc     Get current user
 
 router.get("/:id", async (req, res) => {
   try {
@@ -87,7 +87,7 @@ router.get("/:id", async (req, res) => {
       "UserName",
     ]);
     // const user = req.param._id;
-    console.log(user);
+    // console.log(user);
     if (!user) {
       res.status(400).json({ msg: "There is no User" });
     }

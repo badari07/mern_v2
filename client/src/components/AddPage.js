@@ -1,77 +1,86 @@
-import React, { useState } from "react";
-import UpdatePage from "./UpdatePage";
+import React, { useState, useEffect } from "react";
+import DataPage from "./DataPage";
+import axios from "axios";
 
-const AddPage = () => {
+const AddPage = (props) => {
   const intialSate = {
-    firstName: "",
-    lastName: "",
-    userName: "",
-    FName: [],
-    LName: [],
-    UName: [],
+    FirstName: "",
+    LastName: "",
+    UserName: "",
   };
-  const [state, setState] = useState(intialSate);
+  const [formData, formDataSet] = useState(intialSate);
+  const [data, setData] = useState([]);
+  console.log(data);
+
+  const { FirstName, LastName, UserName } = formData;
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("/api/users");
+      setData(res.data);
+    }
+    fetchData();
+  }, [formData]);
 
   const onhandleChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    formDataSet({ ...formData, [e.target.name]: e.target.value });
   };
-  const onhandleSubmit = (e) => {
+  const onhandleSubmit = async (e) => {
     e.preventDefault();
-    const fn = [...state.FName];
-    const ln = [...state.LName];
-    const un = [...state.UName];
-    if (state.firstName) {
-      fn.push(state.firstName);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({ FirstName, LastName, UserName });
+
+    try {
+      const res = await axios.post("/api/users", body, config);
+    } catch (error) {
+      const errors = error.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => alert(error.msg));
+      }
     }
-    if (state.lastName) {
-      ln.push(state.lastName);
-    }
-    if (state.userName) {
-      un.push(state.userName);
-    }
-    setState({
-      ...state,
-      FName: fn,
-      LName: ln,
-      UName: un,
-      firstName: "",
-      lastName: "",
-      userName: "",
+
+    formDataSet({
+      ...formData,
+      FirstName: "",
+      LastName: "",
+      UserName: "",
     });
   };
-
-  const { firstName, lastName, userName } = state;
 
   return (
     <>
       <form onSubmit={onhandleSubmit}>
         <input
           type="text"
-          name="firstName"
-          placeholder="firstName"
+          name="FirstName"
+          placeholder="FirstName"
           onChange={onhandleChange}
           required
-          value={firstName}
+          value={FirstName}
         />
         <input
           type="text"
-          name="lastName"
-          placeholder="lastName"
+          name="LastName"
+          placeholder="LastName"
           onChange={onhandleChange}
-          value={lastName}
+          value={LastName}
         />
         <input
           type="text"
-          name="userName"
-          placeholder="userName"
+          name="UserName"
+          placeholder="UserName"
           onChange={onhandleChange}
-          value={userName}
+          value={UserName}
         />
         <div>
           <input type="submit" value="ADD" />
         </div>
       </form>
-      <UpdatePage data={state} />
+      <DataPage data={data} />
     </>
   );
 };

@@ -1,17 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
-// const gravatar = require("gravatar");
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const config = require("config");
-// const normalize = require("normalize-url");
 
 const User = require("../../models/User");
 
 // @route    POST api/users
-// @desc     Adding  user
-// @access   Public
+// @desc     Create or update user
 
 router.post(
   "/",
@@ -27,37 +21,79 @@ router.post(
     }
 
     const { FirstName, LastName, UserName } = req.body;
-
+    const userField = {
+      FirstName,
+      LastName,
+      UserName,
+    };
     try {
-      let user = await User.findOne({ UserName });
-      if (user) {
+      let sameUserName = await User.findOne({ UserName });
+      if (sameUserName) {
         return res
           .status(400)
           .json({ errors: [{ msg: "UserName already exists" }] });
       }
 
-      user = new User({
-        FirstName,
-        LastName,
-        UserName,
-      });
+      let user = await User.findOneAndUpdate(
+        { UserName },
+        { $set: userField },
+        { new: true, upsert: true }
+      );
 
-      await user.save();
-      res.send("User Added");
+      return res.json(user);
     } catch (error) {
       console.log(error.message);
       res.status(500).send("Server Error");
     }
   }
 );
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     // Remove user
-    await User.findOneAndRemove({ _id: req.user.id });
+    await User.findByIdAndRemove(req.params.id);
 
     res.json({ msg: "User deleted" });
   } catch (err) {
     console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    GET api/profile
+// @desc     Get all profiles
+
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find().populate("user", [
+      "FirstName",
+      "LastName",
+      "UserName",
+    ]);
+    res.json(users);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+// @route    GET api/users/:id
+// @desc     Get current users profile
+
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate("user", [
+      "FirstName",
+      "LastName",
+      "UserName",
+    ]);
+    // const user = req.param._id;
+    console.log(user);
+    if (!user) {
+      res.status(400).json({ msg: "There is no User" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).send("Server Error");
   }
 });

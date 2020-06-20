@@ -8,6 +8,7 @@ const UpdatePage = (props) => {
   const [check, setCheck] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   console.log(userInfo);
+  console.log(data);
 
   async function fetchData() {
     const res = await axios.get("/api/users");
@@ -54,7 +55,13 @@ const UpdatePage = (props) => {
           userInfo={userInfo}
           setUserInfo={setUserInfo}
         />
-        <UpdateSearch data={data} userInfo={userInfo} />
+        <UpdateSearch
+          data={data}
+          setData={setData}
+          userInfo={userInfo}
+          fetchData={fetchData}
+          setUserInfo={setUserInfo}
+        />
         <div>
           <div>
             <table class="table">

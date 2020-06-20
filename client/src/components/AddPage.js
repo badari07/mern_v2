@@ -19,7 +19,7 @@ const AddPage = (props) => {
       setData(res.data);
     }
     fetchData();
-  }, [formData]);
+  }, []);
 
   const onhandleChange = (e) => {
     formDataSet({ ...formData, [e.target.name]: e.target.value });
@@ -36,6 +36,7 @@ const AddPage = (props) => {
 
     try {
       const res = await axios.post("/api/users", body, config);
+      alert("user add or updated");
     } catch (error) {
       const errors = error.response.data.errors;
       if (errors) {

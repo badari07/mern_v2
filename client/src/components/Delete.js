@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 
 const Delete = (props) => {
   const { _id } = props.userInfo;
-  console.log(props);
+  //console.log(props);
 
   const handleDelete = async (e) => {
     await axios.delete(`/api/users/${_id}`);
     console.log(`${_id} deleted`);
 
     props.fetchData();
-    props.setUserInfo({ FirstName: "", LastName: "", UserName: "" });
+    props.setUserInfo({ FirstName: "", LastName: "", UserName: "", _id: "" });
   };
   return (
     <div>

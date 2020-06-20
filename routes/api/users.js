@@ -47,6 +47,41 @@ router.post(
     }
   }
 );
+
+router.post(
+  "/update",
+  [
+    check("FirstName", "firstName is Required").not().isEmpty(),
+    check("LastName", "LastName is Required").not().isEmpty(),
+    check("UserName", "Username is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { FirstName, LastName, UserName } = req.body;
+    const userField = {
+      FirstName,
+      LastName,
+      UserName,
+    };
+    try {
+      let user = await User.findOneAndUpdate(
+        { UserName },
+        { $set: userField },
+        { new: true, upsert: true }
+      );
+
+      return res.json(user);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 router.delete("/:id", async (req, res) => {
   try {
     // Remove user

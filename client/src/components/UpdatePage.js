@@ -9,7 +9,7 @@ const UpdatePage = (props) => {
   const [userInfo, setUserInfo] = useState({});
   console.log(userInfo);
   console.log(data);
-
+  console.log(check);
   async function fetchData() {
     const res = await axios.get("/api/users");
     setData(res.data);
@@ -20,8 +20,31 @@ const UpdatePage = (props) => {
 
   const onClickCheck = async (e) => {
     console.log(e.target.id);
+    //console.log(e.target.id);
+
+    // const sibling = document.querySelectorAll("td > input");
+    // if( )
+    // console.log(sibling[0].id, e.target.id);
+    // console.log(sibling);
+    setCheck(!check);
+
+    // if (ckid.checked) {
+    //   for (let i = 0; i < ckname.length; i++) {
+    //     if (!ckname[i].checked) {
+    //       ckname[i].disabled = true;
+    //     } else {
+    //       ckname[i].disabled = false;
+    //     }
+    //   }
+    // } else {
+    //   for (let i = 0; i < ckname.length; i++) {
+    //     ckname[i].disabled = false;
+    //   }
+    // }
+
     const res = await axios.get(`/api/users/${e.target.id}`);
     setUserInfo(res.data);
+
     //setCheck(!check);
   };
 
@@ -39,8 +62,9 @@ const UpdatePage = (props) => {
               <input
                 type="checkbox"
                 value={check}
-                disabled={check ? "disabled" : ""}
+                //disabled={check ? "disabled" : ""}
                 id={_id}
+                name={FirstName}
                 onClick={onClickCheck}
               />
             </td>

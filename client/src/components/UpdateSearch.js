@@ -51,7 +51,10 @@ const UpdateSearch = (props) => {
     FormUpdateSet({ ...formUpdate, [e.target.name]: e.target.value });
   };
 
-  const onClickinput = (e) => {
+  const onblur = (e) => {
+    console.log("onblur");
+  };
+  const onFocus = (e) => {
     FormUpdateSet({ ...formUpdate, [e.target.name]: e.target.value });
   };
 
@@ -63,11 +66,11 @@ const UpdateSearch = (props) => {
             type="text"
             name="FirstName"
             onChange={onhandleChange}
-            onClick={onClickinput}
             required
+            disabled={FirstName ? "" : "disabled"}
             placeholder="FirstName"
             defaultValue={FirstName}
-            
+            onFocus={onFocus}
           />
 
           <input
@@ -77,7 +80,8 @@ const UpdateSearch = (props) => {
             placeholder="LastName"
             defaultValue={LastName}
             required
-            onClick={onClickinput}
+            disabled={LastName ? "" : "disabled"}
+            onFocus={onFocus}
           />
 
           <input
@@ -89,7 +93,11 @@ const UpdateSearch = (props) => {
           />
         </div>
         <div>
-          <input type="submit" value="UPDATE" />
+          <input
+            type="submit"
+            disabled={UserName ? "" : "disabled"}
+            value="UPDATE"
+          />
         </div>
       </form>
     </>

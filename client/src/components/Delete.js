@@ -2,12 +2,12 @@ import React from "react";
 import axios from "axios";
 
 const Delete = (props) => {
-  const { _id } = props.userInfo;
+  const { _id, FirstName } = props.userInfo;
   //console.log(props);
 
   const handleDelete = async (e) => {
     await axios.delete(`/api/users/${_id}`);
-    console.log(`${_id} deleted`);
+    alert(`${FirstName} deleted`);
 
     props.fetchData();
     props.setUserInfo({ FirstName: "", LastName: "", UserName: "", _id: "" });

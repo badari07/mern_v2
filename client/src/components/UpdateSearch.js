@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const UpdateSearch = (props) => {
-  const { FirstName, LastName, UserName } = props.userInfo;
+  const { FirstName, LastName, UserName, _id } = props.userInfo;
   console.log(props.userInfo);
 
   const intialSate = {
@@ -30,6 +30,7 @@ const UpdateSearch = (props) => {
 
     try {
       const res = await axios.post("/api/users/update", body, config);
+      alert("user updated");
     } catch (error) {
       const errors = error.response.data.errors;
       if (errors) {
@@ -50,31 +51,43 @@ const UpdateSearch = (props) => {
     FormUpdateSet({ ...formUpdate, [e.target.name]: e.target.value });
   };
 
+  const onClickinput = (e) => {
+    FormUpdateSet({ ...formUpdate, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <form onSubmit={onhandleSubmit}>
-        <input
-          type="text"
-          name="FirstName"
-          onChange={onhandleChange}
-          required
-          placeholder="FirstName"
-          defaultValue={FirstName}
-        />
-        <input
-          type="text"
-          name="LastName"
-          onChange={onhandleChange}
-          placeholder="LastName"
-          defaultValue={LastName}
-        />
-        <input
-          type="text"
-          name="UserName"
-          placeholder="UserName"
-          disabled="disabled"
-          defaultValue={UserName}
-        />
+        <div key={_id}>
+          <input
+            type="text"
+            name="FirstName"
+            onChange={onhandleChange}
+            onClick={onClickinput}
+            required
+            placeholder="FirstName"
+            defaultValue={FirstName}
+            
+          />
+
+          <input
+            type="text"
+            name="LastName"
+            onChange={onhandleChange}
+            placeholder="LastName"
+            defaultValue={LastName}
+            required
+            onClick={onClickinput}
+          />
+
+          <input
+            type="text"
+            name="UserName"
+            placeholder="UserName"
+            disabled="disabled"
+            defaultValue={UserName}
+          />
+        </div>
         <div>
           <input type="submit" value="UPDATE" />
         </div>

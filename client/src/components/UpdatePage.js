@@ -74,11 +74,6 @@ const UpdatePage = (props) => {
     };
     return (
       <>
-        <Delete
-          fetchData={fetchData}
-          userInfo={userInfo}
-          setUserInfo={setUserInfo}
-        />
         <UpdateSearch
           data={data}
           setData={setData}
@@ -86,6 +81,13 @@ const UpdatePage = (props) => {
           fetchData={fetchData}
           setUserInfo={setUserInfo}
         />
+
+        <Delete
+          fetchData={fetchData}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+        />
+
         <div>
           <div>
             <table class="table">
@@ -95,6 +97,7 @@ const UpdatePage = (props) => {
                   <th scope="col">FirstName</th>
                   <th scope="col">LastName</th>
                   <th scope="col">UserName</th>
+                  <th scope="col">Active</th>
                 </tr>
               </thead>
               <tbody>{renderTableData()}</tbody>

@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  border: 1px solid black;
+  flex-direction: column;
+}
+
+.containerBox {
+  border: 1px solid black;
+  width: 75%;
+  height: 90%;
+  padding: 15%;
+  border-radius: 10px;
+  align-items: center;
+}
+.containerBox > div {
+  padding: 10px;
+}
+
+.delete {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.container > div {
+  padding: 5px;
+}
+
+.deleteComp {
+  display: inline-block;
+}

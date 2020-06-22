@@ -54,8 +54,9 @@ const AddPage = (props) => {
 
   return (
     <>
-      <form onSubmit={onhandleSubmit}>
+      <form onSubmit={onhandleSubmit} className="form-inline">
         <input
+          className="form-control mb-2 mr-sm-2"
           type="text"
           name="FirstName"
           placeholder="FirstName"
@@ -64,21 +65,27 @@ const AddPage = (props) => {
           value={FirstName}
         />
         <input
+          className="form-control mb-2 mr-sm-2"
           type="text"
           name="LastName"
           placeholder="LastName"
           onChange={onhandleChange}
           value={LastName}
         />
+
         <input
+          className="form-control mb-2 mr-sm-2"
           type="text"
           name="UserName"
           placeholder="UserName"
           onChange={onhandleChange}
           value={UserName}
         />
+
         <div>
-          <input type="submit" value="ADD" />
+          <button type="submit" class="btn btn-primary mb-2">
+            ADD
+          </button>
         </div>
       </form>
       <DataPage data={data} />

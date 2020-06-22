@@ -60,9 +60,10 @@ const UpdateSearch = (props) => {
 
   return (
     <>
-      <form onSubmit={onhandleSubmit}>
+      <form onSubmit={onhandleSubmit} className="form-inline">
         <div key={_id}>
           <input
+            className="form-control mb-2 mr-sm-2"
             type="text"
             name="FirstName"
             onChange={onhandleChange}
@@ -74,6 +75,7 @@ const UpdateSearch = (props) => {
           />
 
           <input
+            className="form-control mb-2 mr-sm-2"
             type="text"
             name="LastName"
             onChange={onhandleChange}
@@ -85,6 +87,7 @@ const UpdateSearch = (props) => {
           />
 
           <input
+            className="form-control mb-2 mr-sm-2"
             type="text"
             name="UserName"
             placeholder="UserName"
@@ -93,11 +96,13 @@ const UpdateSearch = (props) => {
           />
         </div>
         <div>
-          <input
+          <button
             type="submit"
+            class="btn btn-primary mb-2"
             disabled={UserName ? "" : "disabled"}
-            value="UPDATE"
-          />
+          >
+            UPDATE
+          </button>
         </div>
       </form>
     </>
